@@ -1,3 +1,4 @@
+var args = process.argv;
 var request = require('request');
 var fs = require("fs");
 var secrets = require('./secrets');
@@ -26,16 +27,18 @@ function downloadImageByURL(url, filePath) {
   .pipe(fs.createWriteStream(filePath));
 }
 
-getRepoContributors("jquery", "jquery", function(err, result){
-  if(err){
-    console.log(err);
-  } else {
-    var resultJ = JSON.parse(result);
-    resultJ.forEach(function(item){
-      downloadImageByURL(item.avatar_url, "avatars/"+item.login+".jpg")
-    });
-  }
-});
-
-downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg");
+if(args.length === 4){
+  getRepoContributors(args[2], args[3], function(err, result){
+    if(err){
+      console.log(err);
+    } else {
+      var resultJ = JSON.parse(result);
+      resultJ.forEach(function(item){
+        downloadImageByURL(item.avatar_url, "avatars/"+item.login+".jpg")
+      });
+    }
+  });
+} else {
+  console.log("Invalid input!!");
+}
 
