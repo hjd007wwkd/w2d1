@@ -4,7 +4,7 @@ var fs = require("fs");
 var dotenv = require('dotenv').config();
 var secrets = require('./secrets');
 
-console.log('Welcome to the GitHub Avatar Downloader!');
+console.log('Who has most stars!!!!');
 var star = {};
 var contribute = 0;
 var final = [];
@@ -59,8 +59,10 @@ function getStarred(item){
         final.sort(function(a,b){
           return b.count - a.count;
         })
-        for(var i = 0; i < 5; i++)
+        for(var i = 0; i < 5; i++){
           console.log("[ "+final[i].count+" stars ] "+final[i].name+" / "+final[i].login);
+        }
+        console.log("This is it!!")
       }
     }
     // count one finished
