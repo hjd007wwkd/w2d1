@@ -7,6 +7,7 @@ var secrets = require('./secrets');
 console.log('Welcome to the GitHub Avatar Downloader!');
 var star = {};
 var contribute = 0;
+var final = [];
 
 function getRepoContributors(repoOwner, repoName, cb) {
   var options = {
@@ -44,15 +45,22 @@ function getStarred(item){
     } else {
       var starredPeople = JSON.parse(body);
       starredPeople.forEach(function(person){
-        if(star[person.full_name] === undefined) {
-          star[person.full_name] = 1;
+        if(star[person.name] === undefined) {
+          star[person.name] = {name: person.name, login: person.owner.login, count: 1}
         } else {
-          star[person.full_name]++;
+          star[person.name].count++;
         }
       })
       contribute--;
       if(contribute === 0 ){
-        console.log(star);
+        for(var P in star) {
+          final.push(star[P]);
+        }
+        final.sort(function(a,b){
+          return b.count - a.count;
+        })
+        for(var i = 0; i < 5; i++)
+          console.log("[ "+final[i].count+" stars ] "+final[i].name+" / "+final[i].login);
       }
     }
     // count one finished
